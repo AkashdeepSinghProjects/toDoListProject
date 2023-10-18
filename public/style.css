@@ -1,0 +1,42 @@
+body{
+    color: white;
+    background-color: #C63D2F;
+    font-family: 'Open Sans', sans-serif;
+}
+.containerSize{
+    min-width: 180px;
+}
+.sectionTop{
+    background-color: #E25E3E;
+    border-radius: 2rem;
+}
+.sidebarSize{
+    height: 100vh;
+}
+.activeColor{
+    background-color: #E25E3E;
+}
+.nameCircle{
+    background-color: white;
+    height: 123px;
+    width: 123px;
+    border-radius: 50%;
+}
+.positionChange{
+    position: fixed;
+}
+.toggle{
+    text-decoration: line-through;
+}
+@media (max-width:600px) {
+    .pseudo{
+        display: none;
+    }
+    .containerSize{
+        position: relative;
+
+    }
+    .sidebarSize{
+        height: 100%;
+    }
+}

@@ -1,0 +1,97 @@
+<%- include("partials/header.ejs") %>
+<%# ----top content bar--- %>
+<section class="sectionTop">
+    <%# greetings, Qoute and add new task %>
+    <div class="d-flex flex-wrap justify-content-between ">
+        <div class="p-3 flex-fill">
+            <h1 id="greeting" class="d-inline-flex">Good Morning! User</h1><h1 class="d-inline-flex fw-bolder""><%= locals.userName %></h1> 
+            <h3 id="qouteOfTheDay">Opportunities don't happen, you create them.</h3>
+        </div>
+        <div class="d-flex flex-column justify-content-center p-3 ">
+            <div class="dropdown-center">
+                <button class="btn btn-outline-light dropdown-toggle fs-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/images/plus-circle.svg" height="40px">
+                    New List
+                </button>
+                <ul class="dropdown-menu gap-1 p-2 rounded-3  border-0 shadow w-220px text-center" data-bs-theme="light">
+                    <li><form action="/grocery" method="post"><button class="dropdown-item rounded-2" name="grocery" value="">Grocery</button></form></li>
+                    <li><form action="/home" method="post"><button class="dropdown-item rounded-2" name="home" value="">Home</button></form></li>
+                    <li><form action="/work" method="post"><button class="dropdown-item rounded-2" name="work" value="">Work</button></form></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="d-grid gap-2">
+                        <form action="/custom" method="post">
+                            <div>
+                                <input type="text" id="name" name="customText" value="" class="dropdown-item rounded-2 " placeholder="Custom" aria-label="Custom" aria-describedby="basic-addon1"/> 
+                            </div>
+                            <button class="btn btn-outline-dark " type="submit">Create</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <%# date, day and no. of tasks %>
+    <div class="d-flex justify-content-between p-3">
+        <div class="date d-grid text-center">
+            <% const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+                const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+                const d = new Date();
+            %>
+            <h2 class="text-center"><%=d.getDate(); %> </h2>
+            <p><%= month[d.getMonth()] %>, <%= d.getFullYear()%></p>
+        </div>
+        <div class="day">
+            <h2><%= weekday[d.getDay()]; %></h2>
+        </div>
+        <div class = "totalTasks d-grid text-center">
+            <h2><%= locals.topicList.length %></h2>
+            <p>Lists</p>
+        </div>
+    </div>
+
+</section>
+<%# --Lists creation-- %>
+<section>
+    <% if(Boolean(locals.userName==="")){ %>
+        <form action="/userName" method="post" class="row p-3">
+            <div class="input-group col">
+            <input type="text" id="userName" name="userName" value="" class="rounded-3 form-control col-9" placeholder="Enter you name" aria-label="Custom" aria-describedby="basic-addon1">
+            <button class="btn btn-outline-light col-3" type="submit">Enter</button>
+            </div>
+        </form>
+    <% } %>
+    <% if(Boolean(locals.topicList.length<1)){ %>
+        <h2 class="fs-1 text-center m-5"> ➕Please add new list!</h2>
+
+    <% } %>
+    
+    <ol class="list-group list-group-numbered p-3 fs-3 ">
+         <% if(locals.topicList){ topicList.forEach((topic)=>{ %>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold fs-3"><%= topic %></div>
+                  <ul class="list-group list-group-flush fs-5">
+                    <% if(locals.items[topic]){ items[topic].forEach((item)=>{ %>
+                        <li class="list-group-item "> <input class="form-check-input me-1 trial" type="checkbox" value="" id="secondCheckboxStretched"><%= item %></li>
+                        
+                  <%  });} %>
+                    <li class="d-grid gap-2">
+                        <form action="/addItem" method="post">
+                            <div>
+                                <input type="text" id="name" name="<%= topic %>" value="" class="dropdown-item rounded-2 " placeholder="Enter Item" aria-label="Custom" aria-describedby="basic-addon1"/> 
+                            </div>
+                            <button class="btn btn-outline-success btn-sm" type="submit">Add</button>
+                        </form>
+                    </li>
+                    </ul>
+                </div>
+              </li>
+        <% }); } %>    
+      </ol>
+</section>
+ 
+
+
+<%- include("partials/footer.ejs") %>
+
