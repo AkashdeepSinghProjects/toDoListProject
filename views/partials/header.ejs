@@ -19,7 +19,9 @@
                     
                     <a href="/" class="text-white text-decoration-none">
                     <img src="/images/person-circle.svg" height="124px">
-                    <h2><%= locals.userName %></h2>
+                    <%if(locals.user){  %>
+                        <h2> <%= user.userName %></h2>
+                    <% } %>
                     </a>    
                       
                     <hr>

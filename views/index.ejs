@@ -4,7 +4,7 @@
     <%# greetings, Qoute and add new task %>
     <div class="d-flex flex-wrap justify-content-between ">
         <div class="p-3 flex-fill">
-            <h1 id="greeting" class="d-inline-flex">Good Morning! User</h1><h1 class="d-inline-flex fw-bolder""><%= locals.userName %></h1> 
+            <h1 id="greeting" class="d-inline-flex">Good Morning! User</h1><h1 class="d-inline-flex fw-bolder"><%if (locals.user){ %><%=user.userName%> <% } %></h1> 
             <h3 id="qouteOfTheDay">Opportunities don't happen, you create them.</h3>
         </div>
         <div class="d-flex flex-column justify-content-center p-3 ">
@@ -45,7 +45,7 @@
             <h2><%= weekday[d.getDay()]; %></h2>
         </div>
         <div class = "totalTasks d-grid text-center">
-            <h2><%= locals.topicList.length %></h2>
+            <h2><%= locals.user.list.length%></h2>
             <p>Lists</p>
         </div>
     </div>
@@ -61,25 +61,25 @@
             </div>
         </form>
     <% } %>
-    <% if(Boolean(locals.topicList.length<1)){ %>
+    <% if(Boolean(locals.user.list.length<1)){ %>
         <h2 class="fs-1 text-center m-5"> ➕Please add new list!</h2>
 
     <% } %>
     
     <ol class="list-group list-group-numbered p-3 fs-3 ">
-         <% if(locals.topicList){ topicList.forEach((topic)=>{ %>
+         <% if(locals.user){ user.list.forEach((topic)=>{ %>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                  <div class="fw-bold fs-3"><%= topic %></div>
+                  <div class="fw-bold fs-3"><%= topic.name %></div>
                   <ul class="list-group list-group-flush fs-5">
-                    <% if(locals.items[topic]){ items[topic].forEach((item)=>{ %>
+                    <% if(true){ topic.items.forEach((item)=>{ %>
                         <li class="list-group-item "> <input class="form-check-input me-1 trial" type="checkbox" value="" id="secondCheckboxStretched"><%= item %></li>
-                        
+
                   <%  });} %>
                     <li class="d-grid gap-2">
                         <form action="/addItem" method="post">
                             <div>
-                                <input type="text" id="name" name="<%= topic %>" value="" class="dropdown-item rounded-2 " placeholder="Enter Item" aria-label="Custom" aria-describedby="basic-addon1"/> 
+                                <input type="text" id="name" name="<%= topic.name %>" value="" class="dropdown-item rounded-2 " placeholder="Enter Item" aria-label="Custom" aria-describedby="basic-addon1"/> 
                             </div>
                             <button class="btn btn-outline-success btn-sm" type="submit">Add</button>
                         </form>
