@@ -14,18 +14,21 @@
                     New List
                 </button>
                 <ul class="dropdown-menu gap-1 p-2 rounded-3  border-0 shadow w-220px text-center" data-bs-theme="light">
-                    <li><form action="/grocery" method="post"><button class="dropdown-item rounded-2" name="grocery" value="">Grocery</button></form></li>
-                    <li><form action="/home" method="post"><button class="dropdown-item rounded-2" name="home" value="">Home</button></form></li>
-                    <li><form action="/work" method="post"><button class="dropdown-item rounded-2" name="work" value="">Work</button></form></li>
+                    <form action="/addTopic" method="post">
+                    <li><button class="dropdown-item rounded-2" name="topic" value="Grocery" type="submit">Grocery</button></li>
+                    <li><button class="dropdown-item rounded-2" name="topic" value="Home" type="submit">Home</button></li>
+                    <li><button class="dropdown-item rounded-2"  name="topic" value="Work" type="submit">Work</button></li>
                     <li><hr class="dropdown-divider"></li>
+                    </form>    
                     <li class="d-grid gap-2">
-                        <form action="/custom" method="post">
+                        <form action="/addTopic" method="post">
                             <div>
-                                <input type="text" id="name" name="customText" value="" class="dropdown-item rounded-2 " placeholder="Custom" aria-label="Custom" aria-describedby="basic-addon1"/> 
+                                <input type="text" id="name" name="topic" class="dropdown-item rounded-2 " placeholder="Custom" aria-label="Custom" aria-describedby="basic-addon1" /> 
                             </div>
                             <button class="btn btn-outline-dark " type="submit">Create</button>
                         </form>
                     </li>
+                    
                 </ul>
             </div>
         </div>
@@ -70,12 +73,15 @@
          <% if(locals.user){ user.list.forEach((topic)=>{ %>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
-                  <div class="fw-bold fs-3"><%= topic.name %></div>
-                  <ul class="list-group list-group-flush fs-5">
+                <div class="d-flex justify-content-between"> 
+                    <div class="fw-bold fs-3" id="<%= topic._id %>" ><%= topic.name %></div>
+                    <form target="/delete" method="post"><input hidden value="id"> <button type="submit" class="btn fs-4 ">🗑</button> </form>    
+                </div> 
+                <ul class="list-group list-group-flush fs-5">
                     <% if(true){ topic.items.forEach((item)=>{ %>
                         <li class="list-group-item "> <input class="form-check-input me-1 trial" type="checkbox" value="" id="secondCheckboxStretched"><%= item %></li>
 
-                  <%  });} %>
+                    <%  });} %>
                     <li class="d-grid gap-2">
                         <form action="/addItem" method="post">
                             <div>
@@ -84,7 +90,7 @@
                             <button class="btn btn-outline-success btn-sm" type="submit">Add</button>
                         </form>
                     </li>
-                    </ul>
+                </ul>
                 </div>
               </li>
         <% }); } %>    
