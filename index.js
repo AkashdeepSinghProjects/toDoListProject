@@ -29,23 +29,29 @@ const defaultDocument = new UserModel({
 })
 // home page routing
 app.get("/",async (req,res)=>{
-    
-    try{
-        let result = await UserModel.findOne({userName:"Akash"}); 
-        if(!result){
+
+    async function findResult(nameQuery) {
+        return await UserModel.findOne({ userName: nameQuery });
+      }
+      // Function call
+      try {
+         let result = await findResult("Akash");
+         if(!result){
             defaultDocument.save();
-            result = await UserModel.findOne({userName:"Akash"}); 
-        }
-        res.render("index.ejs",{user:result});
-    }catch(err){
-       console.error("error",err.message);
-    }
+            result = await findResult("Akash");
+         }
+         res.render("index.ejs",{user:result});
+      }
+      catch(err){
+      // handle error;
+      console.error("error",err.message);
+      }
 });
 
 // delete route to delete topic
-app.post("/delete",(req,res)=>{
-    console.log(req.body);
-    console.log("pressed");
+app.post("/delete",async (req,res)=>{
+    /////VERY IMPORTANT TO ADD AWAIT!!!
+    const result = await UserModel.updateOne( { userName: "Akash" }, { $pull: { "list": { _id: req.body.id } } } );
     res.redirect("/");
 });
 

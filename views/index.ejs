@@ -75,7 +75,7 @@
                 <div class="ms-2 me-auto">
                 <div class="d-flex justify-content-between"> 
                     <div class="fw-bold fs-3" id="<%= topic._id %>" ><%= topic.name %></div>
-                    <form target="/delete" method="post"><input hidden value="id"> <button type="submit" class="btn fs-4 ">🗑</button> </form>    
+                    <form action="/delete" method="post"><input hidden name="id" value="<%= topic._id %>"> <button type="submit" class="btn fs-4 ">🗑</button> </form>    
                 </div> 
                 <ul class="list-group list-group-flush fs-5">
                     <% if(true){ topic.items.forEach((item)=>{ %>
@@ -87,7 +87,7 @@
                             <div>
                                 <input type="text" id="name" name="<%= topic.name %>" value="" class="dropdown-item rounded-2 " placeholder="Enter Item" aria-label="Custom" aria-describedby="basic-addon1"/> 
                             </div>
-                            <button class="btn btn-outline-success btn-sm" type="submit">Add</button>
+                            <button class="btn btn-outline-dark btn-sm" type="submit">Add</button>
                         </form>
                     </li>
                 </ul>
