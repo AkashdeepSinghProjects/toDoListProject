@@ -1,5 +1,5 @@
 
-$(".trial").click(function (){ this.parentElement.classList.toggle("toggle");});
+$(".completeLine").click(function (){ this.parentElement.classList.toggle("toggle");});
 
 const greeting = ["Morning","Afternoon","Evening"];
 const shortInspirationalQuotes = [
@@ -40,7 +40,7 @@ $('#myModal').on('shown.bs.modal', function () {
     this.contentEditable=true
     $(this).on('keypress blur', function(e) {
       if(e.keyCode&&e.keyCode==13||e.type=='blur'){
-        
+
        this.contentEditable=false;
 
        $.ajax({
@@ -53,3 +53,20 @@ $('#myModal').on('shown.bs.modal', function () {
     });
     $(this).focus()
  });
+
+ $(".topicEdit").click(function(){
+    this.contentEditable=true;
+    $(this).on("keypress blur",function(e){
+      if(e.keyCode==13||e.type=='blur'){
+        this.contentEditable=false;
+
+        $.ajax({
+          url:"/editTopic",
+          type:"post",
+          data:{topicId:$(this).attr("id"),text:$(this).text()}
+        });
+        return false
+      } 
+    });
+
+ })

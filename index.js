@@ -79,8 +79,14 @@ app.post("/addItem",async (req,res)=>{
 //     }
 // });
 
-// topic is created by function
+//  topic name can be edited and data is received from javascript ajax post reqest
+app.post("/editTopic",async(req,res)=>{
+    
+    const result = await UserModel.updateOne({userName:"Akash","list._id":req.body.topicId},{$set:{"list.$.name":req.body.text}});
+    res.redirect("/");
+});
 
+// edit item using query and USING $ SIGN which shows item corresponding to query array object
 app.post("/editItem",async (req,res)=>{
     if(req.body.text!=""){
         const objTry = {};
@@ -94,11 +100,12 @@ app.post("/editItem",async (req,res)=>{
 
         const result = await UserModel.updateOne({userName:"Akash","list._id":req.body.topicID},{$unset:objTry});
         const result1 = await UserModel.updateOne({userName:"Akash","list._id":req.body.topicID},{$pull:{"list.$.items":null}});
-        
     }
     
     res.redirect("/");
 })
+
+// topic is created by function
 async function addTopic(topic){
 
     topic = topic.charAt(0).toUpperCase() + topic.slice(1).toLowerCase();
