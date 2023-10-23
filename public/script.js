@@ -36,6 +36,20 @@ $('#myModal').on('shown.bs.modal', function () {
     $('#myInput').trigger('focus')
   })
 
-  fetch("/trial", {
-    method: "DELETE"
+  $('.items').click(function(e) {
+    this.contentEditable=true
+    $(this).on('keypress blur', function(e) {
+      if(e.keyCode&&e.keyCode==13||e.type=='blur'){
+        
+       this.contentEditable=false;
+
+       $.ajax({
+        url: "/editItem",
+        type: "post",
+        data: {topicID:$(this).closest('ul').attr('id'),itemIndex:$(this).attr('id'),text:$(this).text()}
+      })
+       return false
+      }
     });
+    $(this).focus()
+ });

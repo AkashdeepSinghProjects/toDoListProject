@@ -67,6 +67,7 @@ app.post("/addItem",async (req,res)=>{
 
     if(enteredItem!=""){
        const result =  await UserModel.updateOne({userName:"Akash","list.name":topic},{$push:{"list.$.items":enteredItem}});
+       console.log(result);
         res.redirect("/");
     }
 });
@@ -79,6 +80,25 @@ app.post("/addItem",async (req,res)=>{
 // });
 
 // topic is created by function
+
+app.post("/editItem",async (req,res)=>{
+    if(req.body.text!=""){
+        const objTry = {};
+        objTry["list.$.items."+req.body.itemIndex]=req.body.text;
+
+        const result = await UserModel.updateOne({userName:"Akash","list._id":req.body.topicID},{$set:objTry});
+        
+    }else{
+        const objTry = {};
+        objTry["list.$.items."+req.body.itemIndex]=1;
+
+        const result = await UserModel.updateOne({userName:"Akash","list._id":req.body.topicID},{$unset:objTry});
+        const result1 = await UserModel.updateOne({userName:"Akash","list._id":req.body.topicID},{$pull:{"list.$.items":null}});
+        
+    }
+    
+    res.redirect("/");
+})
 async function addTopic(topic){
 
     topic = topic.charAt(0).toUpperCase() + topic.slice(1).toLowerCase();
