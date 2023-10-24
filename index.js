@@ -16,9 +16,9 @@ catch(error => console.error("Error: ",error.message));
 
 // User Schema and Model made through mongoose method
 const UserSchema = new mongoose.Schema({
-    _id:Number,
-    userName:String ,
-    list:[{name:String,items:[]}]
+    _id:{type: Number,required:true},
+    userName:{type: String,required:true} ,
+    list:[{name:String,items:[],important:Boolean}]
 })
 // colection name user is created
 const UserModel = mongoose.model("user",UserSchema);
@@ -34,8 +34,7 @@ app.get("/",(req,res)=>{
 app.post("/user", async(req,res)=>{
 
     async function userExist(){
-        const name = (req.body.username.toLowerCase);
-        return await UserModel.findOne({userName:name});
+        return await UserModel.findOne({userName:capitalizeFLetter(req.body.username)});
     }
 
     try{
@@ -45,7 +44,7 @@ app.post("/user", async(req,res)=>{
             const newId =  count+1;
             const newUser = new UserModel({
                 _id: newId,
-                userName:req.body.username,
+                userName:capitalizeFLetter(req.body.username),
                 list: [],
             })
             newUser.save();
@@ -63,6 +62,7 @@ app.post("/user", async(req,res)=>{
 // To Do List Page according to userID
 app.get("/:id",async (req,res)=>{
 
+    CurrentUserID = req.params.id;
     async function findResult(idQuery) {
         return await UserModel.findOne({ _id: idQuery });
       }
@@ -107,6 +107,8 @@ app.post("/addItem",async (req,res)=>{
     if(enteredItem!=""){
         const result =  await UserModel.updateOne({_id: CurrentUserID,"list.name":topic},{$push:{"list.$.items":enteredItem}});
         res.redirect("/"+CurrentUserID);
+    }else{
+        res.redirect("/"+CurrentUserID);
     }
 });
 
@@ -141,12 +143,16 @@ app.post("/editItem",async (req,res)=>{
 // topic is created by function
 async function addTopic(topic){
 
-    topic = topic.charAt(0).toUpperCase() + topic.slice(1).toLowerCase();
+    topic = capitalizeFLetter(topic);
     const result = await UserModel.findOne({_id: CurrentUserID ,"list.name":topic}); 
     if(!result){
         const documentObject = {name:topic,items:[]};
         await UserModel.updateOne({_id: CurrentUserID },{$push:{list:documentObject}});
     }
+}
+
+function capitalizeFLetter(str) {
+   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
 app.listen(port,()=>{

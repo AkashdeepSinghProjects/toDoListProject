@@ -6,10 +6,15 @@ body{
 .userPage{
     margin-top: 10vh;
 }
+#qouteOfTheDay{
+    font-weight: lighter;
+    font-style: italic;
+}
 .logo{
     height: 200px;
     width: 200px;
     border-radius: 3rem;
+    filter: drop-shadow(0 10px 20px #ffffff50);
 }
 .containerSize{
     min-width: 180px;

@@ -30,8 +30,8 @@ if(time<12){
 }else{
     greet = greeting[2];
 }
-$("#greeting").html("<h1>Good "+greet+",</h1>");
-$("#qouteOfTheDay").html("<h3>"+randomQoute+"</h3>");
+$("#greeting").html("<h1>Good "+greet+", </h1>");
+$("#qouteOfTheDay").text("\" "+randomQoute+"\" ");
 $('#myModal').on('shown.bs.modal', function () {
     $('#myInput').trigger('focus')
   })

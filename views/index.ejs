@@ -4,8 +4,8 @@
     <%# greetings, Qoute and add new task %>
     <div class="d-flex flex-wrap justify-content-between ">
         <div class="p-3 flex-fill">
-            <h1 id="greeting" class="d-inline-flex">Good Morning! User</h1><h1 class="d-inline-flex fw-bolder"><%if (locals.user){ %><%=user.userName%> <% } %></h1> 
-            <h3 id="qouteOfTheDay">Opportunities don't happen, you create them.</h3>
+            <h1 id="greeting" class="d-inline-flex">Good Morning! User</h1><h1 class="d-inline-flex fw-bolder text-dark text-capitalize"> <%if (locals.user){ %> <%=user.userName%> <% } %></h1> 
+            <h3 id="qouteOfTheDay" class="fs-4">Opportunities don't happen, you create them.</h3>
         </div>
         <div class="d-flex flex-column justify-content-center p-3 ">
             <div class="dropdown-center">
@@ -45,7 +45,7 @@
             <p><%= month[d.getMonth()] %>, <%= d.getFullYear()%></p>
         </div>
         <div class="day">
-            <h2><%= weekday[d.getDay()]; %></h2>
+            <h2 class="mt-3"><%= weekday[d.getDay()]; %></h2>
         </div>
         <div class = "totalTasks d-grid text-center">
             <h2><%= locals.user.list.length%></h2>
