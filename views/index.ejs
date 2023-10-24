@@ -60,14 +60,6 @@
 </section>
 <%# --Lists creation-- %>
 <section>
-    <% if(Boolean(locals.userName==="")){ %>
-        <form action="/userName" method="post" class="row p-3">
-            <div class="input-group col">
-            <input type="text" id="userName" name="userName" value="" class="rounded-3 form-control col-9" placeholder="Enter you name" aria-label="Custom" aria-describedby="basic-addon1">
-            <button class="btn btn-outline-light col-3" type="submit">Enter</button>
-            </div>
-        </form>
-    <% } %>
     <% if(Boolean(locals.user.list.length<1)){ %>
         <h2 class="fs-1 text-center m-5"> ➕Please add new list!</h2>
 

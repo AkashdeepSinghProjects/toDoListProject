@@ -4,7 +4,12 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 .userPage{
-    margin-top: 40vh;
+    margin-top: 10vh;
+}
+.logo{
+    height: 200px;
+    width: 200px;
+    border-radius: 3rem;
 }
 .containerSize{
     min-width: 180px;

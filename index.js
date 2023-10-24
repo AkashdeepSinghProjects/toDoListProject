@@ -106,7 +106,6 @@ app.post("/addItem",async (req,res)=>{
 
     if(enteredItem!=""){
         const result =  await UserModel.updateOne({_id: CurrentUserID,"list.name":topic},{$push:{"list.$.items":enteredItem}});
-        console.log(result);
         res.redirect("/"+CurrentUserID);
     }
 });
