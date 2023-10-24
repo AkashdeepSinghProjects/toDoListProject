@@ -3,6 +3,9 @@ body{
     background-color: #C63D2F;
     font-family: 'Open Sans', sans-serif;
 }
+.userPage{
+    margin-top: 40vh;
+}
 .containerSize{
     min-width: 180px;
 }
