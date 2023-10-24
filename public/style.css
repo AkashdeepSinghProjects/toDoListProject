@@ -6,6 +6,13 @@ body{
 .userPage{
     margin-top: 10vh;
 }
+.starred{
+    content:url("/images/star.svg");
+}
+.starredFull{
+    content:url("/images/star-fill.svg");
+}
+
 #qouteOfTheDay{
     font-weight: lighter;
     font-style: italic;

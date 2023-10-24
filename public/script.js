@@ -1,6 +1,40 @@
 
 $(".completeLine").click(function (){ this.parentElement.classList.toggle("toggle");});
 
+$(".starred").click(function(){ 
+  this.classList.toggle("starredFull");
+  
+    $.ajax({
+      url:"/toogleImportant",
+      type: "post",
+      data: {important:$(this).hasClass("starredFull"),topicId:$(this).closest('div').attr('id')}
+    })
+})
+let counter =true;
+function clickMe(){
+  if(counter){
+     console.log(this);
+    $(this).addClass("activeColor");
+    counter = false;
+
+  }
+ 
+ 
+  $(".allLink").removeClass("activeColor");
+}
+
+// $("#starredLink").click(function(){
+//   console.log(this);
+//   $(this).addClass("activeColor");
+ 
+//   $(".allLink").removeClass("activeColor");
+// })
+// $(".allLink").click(function(){
+//   console.log(this);
+//   $(this).addClass("activeColor");
+//   $(".starredLink").removeClass("activeColor");
+// })
+
 const greeting = ["Morning","Afternoon","Evening"];
 const shortInspirationalQuotes = [
     "Dream big. Start small. Act now.",

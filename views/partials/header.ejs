@@ -25,14 +25,14 @@
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto ">
                     <li class="nav-item">
-                        <a  class="nav-link text-white" aria-current="page">
+                        <a  href="/<%= locals.user._id %>?starred=true" onClick="clickMe();" id="starredLink" class="nav-link text-white starredLink importantTopic" aria-current="page">
                             ⭐️ Starred
                         </a>
                     </li>
                     <hr/>
                     <li>
-                        <a  class="nav-link activeColor text-white">
-                            Today
+                        <a  href="/<%= locals.user._id %>" class="nav-link activeColor text-white allLink">
+                            All
                         </a>
                     </li>
                     <hr/>

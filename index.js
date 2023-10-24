@@ -63,12 +63,15 @@ app.post("/user", async(req,res)=>{
 app.get("/:id",async (req,res)=>{
 
     CurrentUserID = req.params.id;
-    async function findResult(idQuery) {
-        return await UserModel.findOne({ _id: idQuery });
-      }
 
     try {
-        const result = await findResult(req.params.id);
+        let result = null;
+        if(req.query.starred){
+            result = await findResult(req.params.id,true);
+        }else{
+            result = await findResult(req.params.id);
+        }
+        // console.log(result);
         if(result){
             res.render("index.ejs",{user:result});
         }else{
@@ -78,7 +81,7 @@ app.get("/:id",async (req,res)=>{
     }
     catch(err){
         console.error("error",err.message);
-        res.send(400,"Bad Request");
+        res.status(400).send("Bad Request");
     }
     
 });
@@ -112,6 +115,17 @@ app.post("/addItem",async (req,res)=>{
     }
 });
 
+app.post("/toogleImportant",async (req,res)=>{
+
+    try{
+        await UserModel.updateOne({_id: CurrentUserID,"list._id":req.body.topicId},{$set:{"list.$.important":req.body.important}})
+    }catch(err){
+        console.error("Error: ",err.message);
+    }
+    
+    res.redirect("/"+CurrentUserID);
+})
+
 //  topic name can be edited and data is received from javascript ajax post reqest
 app.post("/editTopic",async(req,res)=>{
 
@@ -139,6 +153,21 @@ app.post("/editItem",async (req,res)=>{
     
     res.redirect("/"+CurrentUserID);
 })
+// find query function for all the data and for important data
+async function findResult(idQuery,impQuery) {
+      
+    if(impQuery){
+
+        const listImportant = await UserModel.aggregate([{$match:{_id:parseInt(idQuery)}},{$unwind:"$list"},{$match:{"list.important":true}},{$group:{_id:"$_id",list:{$push:"$list"}}}]);
+        const name = await UserModel.findOne({ _id: parseInt(idQuery) });
+        let obj1 = listImportant[0];
+        obj1.userName=name.userName;
+        return obj1
+    }else{
+        return await UserModel.findOne({ _id: idQuery });
+    }
+    
+  }
 
 // topic is created by function
 async function addTopic(topic){
@@ -146,8 +175,8 @@ async function addTopic(topic){
     topic = capitalizeFLetter(topic);
     const result = await UserModel.findOne({_id: CurrentUserID ,"list.name":topic}); 
     if(!result){
-        const documentObject = {name:topic,items:[]};
-        await UserModel.updateOne({_id: CurrentUserID },{$push:{list:documentObject}});
+        const documentObject = {name:topic,items:[],important:false};
+        await UserModel.updateOne({_id: CurrentUserID },{"$push":{list:{"$each":[documentObject],"$position": 0}}});
     }
 }
 
